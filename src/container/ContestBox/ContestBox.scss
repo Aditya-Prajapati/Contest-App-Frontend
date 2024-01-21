@@ -1,7 +1,35 @@
 .app__contestBox {
   flex: 0.9;
   width: 97%;
-  padding: 1rem;
+  padding: 0.8rem 1rem;
   border-radius: 40px;
   background-color: var(--white-color);
+  overflow-y: auto;
+  border: 1px solid var(--darkBrown-color);
+
+  .app__contestBox-contest {
+    display: flex;
+    flex-direction: column;
+
+    .app__contestBox-contestItem {
+      margin-bottom: 0.7rem;
+      background-color: var(--lightBrown-color);
+      border-radius: 40px;
+      padding: 0.45rem 2rem;
+      border-bottom: 1px solid var(--darkBrown-color);
+      // box-shadow: 4px 4px 4px 0px rgba(30, 32, 34, 0.1);
+
+      &:hover{
+        color: var(--lightBrown-color);
+        background-color: var(--darkBrown-color);
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-family: var(--secondary-font);
+      font-size: 1rem;
+    }
+  }
 }
