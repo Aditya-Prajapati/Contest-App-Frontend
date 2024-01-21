@@ -29,7 +29,7 @@
       border-radius: 14px;
       background-color: var(--white-color);
 
-      &:hover {
+      &:hover, &.active {
         color: var(--lightBrown-color);
         background-color: var(--darkBrown-color);
       }
