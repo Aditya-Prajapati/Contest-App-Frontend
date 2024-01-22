@@ -1,32 +1,38 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import "./ContestBox.scss";
 
 const ContestBox = () => {
-  let contests = [
-    {
-      name: "Codeforces Round 912 (Div. 3) - 28/01/2024, 20:05 UTC",
-      link: "",
-    },
-    {
-      name: "Educational Codeforces Round 113 (Div. 2) - 22/01/2024, 20:05 UTC",
-      link: "",
-    },
-    {
-      name: "Codeforces Round 912 (Div. 3) - 28/01/2024, 20:05 UTC",
-      link: "",
-    }
-  ];
+  const [contestData, setContestData] = useState([]);
+  //"All", "Codeforces", "Leetcode", "Codechef"
+  const [Codeforces, setCodeforces] = useState([]);
+  const [Leetcode, setLeetcode] = useState([]);
+  const [Codechef, setCodechef] = useState([]);
+  const [All, setAll] = useState([]);
+
+  useEffect(() => {
+    const fetchCodeforcesData = async () => {
+      try {
+        const result = await fetch("http://localhost:3001/AllContest");
+        const data = await result.json();
+        setCodeforces(data.Detail);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchCodeforcesData();
+  }, []);
 
   return (
     <div className="app__contestBox">
       <ul className="app__contestBox-contest">
-        {contests.map((contest, index) => (
-          <a 
-          key={index} 
-          href={contest.link}
-          className="app__contestBox-contestItem"
+        {Codeforces?.map((contest, index) => (
+          <a
+            key={index}
+            href={`https://codeforces.com/contests/${contest.id}`}
+            className="app__contestBox-contestItem"
           >
-            {contest.name}
+            {`${contest.name} -  ${contest.startTimeSeconds}`}
           </a>
         ))}
       </ul>
