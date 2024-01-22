@@ -1,40 +1,44 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ContestBox.scss";
 
-const ContestBox = () => {
+const ContestBox = ({ currentPlatform }) => {
   const [contestData, setContestData] = useState([]);
-  //"All", "Codeforces", "Leetcode", "Codechef"
-  const [Codeforces, setCodeforces] = useState([]);
-  const [Leetcode, setLeetcode] = useState([]);
-  const [Codechef, setCodechef] = useState([]);
-  const [All, setAll] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchCodeforcesData = async () => {
+    const fetchContestData = async () => {
       try {
-        const result = await fetch("http://localhost:3001/AllContest");
+        setLoading(true);
+        const link = `http://localhost:3001/api/${currentPlatform.toLowerCase()}`;
+        const result = await fetch(link);
         const data = await result.json();
-        setCodeforces(data.Detail);
-        console.log(data);
-      } catch (err) {
-        console.log(err);
+        setContestData(data.detail || []);
+      } 
+      catch (err) {
+        console.error(err);
+      } 
+      finally {
+        setLoading(false); 
       }
     };
-    fetchCodeforcesData();
-  }, []);
+
+    fetchContestData();
+  }, [currentPlatform]);
 
   return (
     <div className="app__contestBox">
-      <ul className="app__contestBox-contest">
-        {Codeforces?.map((contest, index) => (
-          <a
-            key={index}
-            href={`https://codeforces.com/contests/${contest.id}`}
-            className="app__contestBox-contestItem"
-          >
-            {`${contest.name} -  ${contest.startTimeSeconds}`}
-          </a>
-        ))}
+      <ul className="app__contestBox-contest app__flex">
+        {loading ? <p>Loading...</p> : 
+          contestData.length > 0 ? contestData.map((contest, index) => (
+            <a
+              key={index}
+              href={`https://codeforces.com/contests/${contest.id}`}
+              className="app__contestBox-contestItem"
+            >
+              {`${contest.name} - ${contest.startTimeSeconds}`}
+            </a>
+          )
+        ) : <p>No contests found.</p> }
       </ul>
     </div>
   );

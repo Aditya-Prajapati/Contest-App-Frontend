@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./Navbar.scss";
 
-const Navbar = () => {
-  const [active, setActive] = useState("All");
+const Navbar = ({ currentPlatform, setCurrentPlatform }) => {
 
   return (
     <div className="app__navbar">
@@ -15,8 +14,8 @@ const Navbar = () => {
           <a
             key={`link-${platform}`}
             href={`#${platform}`}
-            className={`app__flex app__navbar-platform ${active === platform && `active`}`}
-            onClick={() => setActive(platform)}
+            className={`app__flex app__navbar-platform ${currentPlatform === platform && `active`}`}
+            onClick={() => setCurrentPlatform(platform)}
           >
             <p>{platform}</p>
           </a>
