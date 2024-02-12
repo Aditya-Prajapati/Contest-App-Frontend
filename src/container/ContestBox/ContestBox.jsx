@@ -9,7 +9,7 @@ const ContestBox = ({ currentPlatform }) => {
     const fetchContestData = async () => {
       try {
         setLoading(true);
-        const link = `http://localhost:3001/${currentPlatform.toLowerCase()}/upcoming-contests`;
+        const link = `http://localhost:8000/${currentPlatform.toLowerCase()}/upcoming-contests`;
         const result = await fetch(link);
         const data = await result.json();
         // Return an {object} consisting key("contests"): Value(Array[contest1, contests2 ...])
