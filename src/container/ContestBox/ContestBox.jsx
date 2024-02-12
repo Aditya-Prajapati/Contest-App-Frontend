@@ -9,10 +9,11 @@ const ContestBox = ({ currentPlatform }) => {
     const fetchContestData = async () => {
       try {
         setLoading(true);
-        const link = `http://localhost:3001/api/${currentPlatform.toLowerCase()}`;
+        const link = `http://localhost:3001/${currentPlatform.toLowerCase()}/upcoming-contests`;
         const result = await fetch(link);
         const data = await result.json();
-        setContestData(data.detail || []);
+        // Return an {object} consisting key("contests"): Value(Array[contest1, contests2 ...])
+        setContestData(data);
       } 
       catch (err) {
         console.error(err);
@@ -29,13 +30,14 @@ const ContestBox = ({ currentPlatform }) => {
     <div className="app__contestBox">
       <ul className="app__contestBox-contest app__flex">
         {loading ? <p>Loading...</p> : 
-          contestData.length > 0 ? contestData.map((contest, index) => (
+          Object.keys(contestData).length > 0 ? contestData.contests.map((contest, index) => (
             <a
               key={index}
-              href={`https://codeforces.com/contests/${contest.id}`}
+              target="_blank"
+              href={`https://codeforces.com/contests/${contest.contestId}`}
               className="app__contestBox-contestItem"
             >
-              {`${contest.name} - ${contest.startTimeSeconds}`}
+              {`${contest.contestName} ${contest.contestDate} ${contest.contestTime}`}
             </a>
           )
         ) : <p>No contests found.</p> }
